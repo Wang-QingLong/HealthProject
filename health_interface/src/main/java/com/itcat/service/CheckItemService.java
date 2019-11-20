@@ -2,6 +2,7 @@ package com.itcat.service;
 
 
 import com.itcast.entity.PageResult;
+import com.itcast.entity.Result;
 import com.itcast.pojo.CheckItem;
 
 /**
@@ -35,5 +36,19 @@ public interface CheckItemService {
      * @param row
      * @return
      */
-    PageResult findById(Integer row);
+    CheckItem findById(int row);
+
+    /**
+     * 编辑
+     *
+     * @param checkItem
+     */
+    void edit(CheckItem checkItem);
+
+    /**
+     * 删除
+     *
+     * @param id_
+     */
+    void delete(Integer id_);
 }

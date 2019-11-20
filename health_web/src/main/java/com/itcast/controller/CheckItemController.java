@@ -7,6 +7,7 @@ import com.itcast.entity.QueryPageBean;
 import com.itcast.entity.Result;
 import com.itcast.pojo.CheckItem;
 import com.itcat.service.CheckItemService;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,14 +60,50 @@ public class CheckItemController {
     /**
      * Id查询
      *
-     * @param row
+     * @param id
      * @return
      */
-    @RequestMapping("findById")
-    public PageResult findById(Integer row) {
-        System.out.println(row);
-        return checkItemService.findById(row);
+    @RequestMapping(value = "findById")
+    public CheckItem findById(String id) {
+
+        Integer id_ = Integer.parseInt(id);
+        return checkItemService.findById(id_);
     }
 
+
+    /**
+     * 编辑
+     *
+     * @param checkItem
+     * @return
+     */
+    @RequestMapping("/edit")
+    public Result edit(@RequestBody CheckItem checkItem) {
+
+        try {
+            checkItemService.edit(checkItem);
+        } catch (Exception e) {
+            return new Result(false, MessageConstant.EDIT_CHECKITEM_FAIL);
+        }
+
+        return new Result(true, MessageConstant.EDIT_CHECKITEM_SUCCESS);
+    }
+
+
+
+    @RequestMapping(value = "delete")
+    public Result delete(String id) {
+
+        Integer id_ = Integer.parseInt(id);
+
+        try {
+            checkItemService.delete(id_);
+        } catch (Exception e) {
+            return new Result(false, MessageConstant.DELETE_CHECKGROUP_FAIL);
+        }
+
+        return new Result(true, MessageConstant.DELETE_CHECKITEM_SUCCESS);
+
+    }
 
 }

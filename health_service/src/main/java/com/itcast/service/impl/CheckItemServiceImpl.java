@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.itcast.entity.PageResult;
+import com.itcast.entity.Result;
 import com.itcast.mapper.CheckItemMapper;
 import com.itcast.pojo.CheckItem;
 import com.itcat.service.CheckItemService;
@@ -69,9 +70,29 @@ public class CheckItemServiceImpl implements CheckItemService {
      * @return
      */
     @Override
-    public PageResult findById(Integer row) {
-
+    public CheckItem findById(int row) {
         return checkItemDao.findById(row);
+    }
+
+    /**
+     * 编辑
+     *
+     * @param checkItem
+     */
+    @Override
+    public void edit(CheckItem checkItem) {
+
+        checkItemDao.edit(checkItem);
+    }
+
+    /**
+     * 删除
+     *
+     * @param id_
+     */
+    @Override
+    public void delete(Integer id_) {
+        checkItemDao.delete(id_);
     }
 
 

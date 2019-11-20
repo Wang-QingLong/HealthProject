@@ -2,6 +2,7 @@ package com.itcast.mapper;
 
 import com.github.pagehelper.Page;
 import com.itcast.entity.PageResult;
+import com.itcast.entity.Result;
 import com.itcast.pojo.CheckItem;
 import org.apache.ibatis.annotations.Param;
 
@@ -34,5 +35,18 @@ public interface CheckItemMapper {
      * @param row
      * @return
      */
-    PageResult findById(@Param("row") Integer row);
+    CheckItem findById(@Param("row") int row);
+
+    /**
+     * 编辑
+     *
+     * @param checkItem
+     */
+    void edit(CheckItem checkItem);
+
+
+    /**删除
+     * @param id_
+     */
+    void delete(@Param("id_") Integer id_);
 }
