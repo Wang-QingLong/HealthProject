@@ -15,10 +15,17 @@
     <!--分页查询-->
     <select id="findPage" resultType="com.itcast.pojo.CheckItem">
 
-      select *  from t_checkitem
-      <if test="queryString !=null and queryString.trim().length > 0">
-          where code = #{queryString} or name = #{queryString}
-      </if>
+        select * from t_checkitem
+        <if test="queryString !=null and queryString.trim().length > 0">
+            where code = #{queryString} or name = #{queryString}
+        </if>
+
+    </select>
+
+    <!--Id查询-->
+    <select id="findById" resultType="com.itcast.entity.PageResult">
+
+     select * from t_checkitem where id =#{row}
 
     </select>
 </mapper>

@@ -45,13 +45,13 @@
                 <el-table-column label="操作" align="center">
                     <template slot-scope="scope">
 
-<!--                        font-size: 15px;   ： 图标大小 font-weight: bold;   ： 图标加粗-->
-                        <i class="el-icon-edit"  style="font-size: 25px;" @click="handleUpdate(scope.row)"></i>
+                        <!--                        font-size: 15px;   ： 图标大小 font-weight: bold;   ： 图标加粗-->
+                        <i class="el-icon-edit" style="font-size: 25px;" @click="handleUpdate(scope.row)"></i>
 
                         <i class="el-icon-delete" style="font-size: 25px;" @click="handleDelete(scope.row)"></i>
 
-<!--                        <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>-->
-<!--                        <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>-->
+                        <!--                        <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>-->
+                        <!--                        <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>-->
                     </template>
                 </el-table-column>
             </el-table>
@@ -116,14 +116,14 @@
                         </el-row>
                         <el-row>
                             <el-col :span="24">
-                                <el-form-item label="项目说明"  prop="remark">
+                                <el-form-item label="项目说明" prop="remark">
                                     <el-input v-model="formData.remark" type="textarea"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="24">
-                                <el-form-item label="注意事项"  prop="attention">
+                                <el-form-item label="注意事项" prop="attention">
                                     <el-input v-model="formData.attention" type="textarea"></el-input>
                                 </el-form-item>
                             </el-col>
@@ -186,14 +186,14 @@
                         </el-row>
                         <el-row>
                             <el-col :span="24">
-                                <el-form-item label="项目说明"  prop="remark">
+                                <el-form-item label="项目说明" prop="remark">
                                     <el-input v-model="formData.remark" type="textarea"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row>
                         <el-row>
                             <el-col :span="24">
-                                <el-form-item label="注意事项"   prop="attention">
+                                <el-form-item label="注意事项" prop="attention">
                                     <el-input v-model="formData.attention" type="textarea"></el-input>
                                 </el-form-item>
                             </el-col>
@@ -234,26 +234,26 @@
                 code: [{required: true, message: '项目编码为必填项', trigger: 'blur'}],
                 name: [{required: true, message: '项目名称为必填项', trigger: 'blur'}],
                 age: [
-                    {required: true, message:  '适用年龄为必填项', trigger: 'blur'},
+                    {required: true, message: '适用年龄为必填项', trigger: 'blur'},
                     // { type: 'number', message: '年龄必须为数字值'},
-                    { pattern: /^[0-9]*[1-9][0-9]*$/, message: '年龄必须为正整数'}
-                    ],
-                price:[
+                    {pattern: /^[0-9]*[1-9][0-9]*$/, message: '年龄必须为正整数'}
+                ],
+                price: [
                     {required: true, message: '价格为必填项', trigger: 'blur'},
                     {
-                        validator: (rule, value, callBack)=>{
+                        validator: (rule, value, callBack) => {
                             //校正价格
-                            var patrn=/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
-                            if (!patrn.exec(value)){
+                            var patrn = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+                            if (!patrn.exec(value)) {
                                 callBack('请输入正整数或者两位小数的价格');
                             } else {
                                 callBack();
                             }
                         }
                     }
-                    ],
-                remark:[{required: true, message: '项目说明不能为空', trigger: 'blur'}],
-                attention:[{required: true, message: '注意事项不能为空', trigger: 'blur'}],
+                ],
+                remark: [{required: true, message: '项目说明不能为空', trigger: 'blur'}],
+                attention: [{required: true, message: '注意事项不能为空', trigger: 'blur'}],
             }
         },
         //钩子函数，VUE对象初始化完成后自动执行
@@ -263,18 +263,18 @@
         methods: {
             //编辑
             handleEdit() {
-              // this.formData 里面有id，因为我们回显数据的时候全部字段都查询出来，
+                // this.formData 里面有id，因为我们回显数据的时候全部字段都查询出来，
                 // 然后把所有字段都赋值给formData
-                axios.post("/checkitem/add.do",this.formData).then(()=>{
-                        //关闭弹框
-                        this.dialogFormVisible4Edit = true;
-                        //刷新页面
-                        this.findPage();
+                axios.post("/checkitem/add.do", this.formData).then(() => {
+                    //关闭弹框
+                    this.dialogFormVisible4Edit = false;
+                    //刷新页面
+                    this.findPage();
 
-            })
+                })
             },
             //添加
-            handleAdd(){
+            handleAdd() {
                 //校验表单输入项是否合法
                 //获取dom对象(this.$refs.dataAddForm, this.$refs['dataAddForm'])
                 this.$refs['dataAddForm'].validate((flag) => {
@@ -308,14 +308,15 @@
             },
             //分页查询
             findPage() {
-                // //分页参数
+                //分页参数
                 // var param = {
                 //     currentPage:this.pagination.currentPage,//页码
                 //     pageSize:this.pagination.pageSize,//每页显示的记录数
                 //     queryString:this.pagination.queryString//查询条件
                 // };
                 //请求后台
-                axios.post("/checkitem/findPage.do",this.pagination).then((response)=> {
+                axios.post("/checkitem/findPage.do", this.pagination).then((response) => {
+                    console.log(response);
                     //为模型数据赋值，基于VUE的双向绑定展示到页面
                     this.dataList = response.data.rows;    //找表格帮我遍历
                     this.pagination.total = response.data.total;  //给分页插件帮我计算页面
@@ -328,13 +329,18 @@
             // 弹出添加窗口
             handleCreate() {
                 this.dialogFormVisible = true;
-    },
+            },
             // 弹出编辑窗口
             handleUpdate(row) {
-              this.dialogFormVisible4Edit=true;
+                //  打开弹窗
+                this.dialogFormVisible4Edit = true;
+                var id_ = row.id;
+                //发送异步请求查询该条数据
+                axios.post("/checkitem/findById.do",id_).then((response) => {
+                    //为模型数据赋值，基于VUE的双向绑定展示到页面
+                    this.formData = response.data.rows;    //找表格帮我遍历
 
-
-
+                });
             },
             //切换页码
             handleCurrentChange(currentPage) {

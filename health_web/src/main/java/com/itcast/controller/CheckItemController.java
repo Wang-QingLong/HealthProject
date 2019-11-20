@@ -28,9 +28,8 @@ public class CheckItemController {
      * 新增
      *
      * @param checkItem
-     * @return
-     *  1, form 提交数据的格式(name=jack&age=18&address=shanggao)后期用对象接收不需要加注解
-     *  2,页面传的是json数据,后端使用map或者pojo时,需要加@RequestBody
+     * @return 1, form 提交数据的格式(name=jack&age=18&address=shanggao)后期用对象接收不需要加注解
+     * 2,页面传的是json数据,后端使用map或者pojo时,需要加@RequestBody
      * 3,基本数据类型 & 数组 &MultipartFile 只要保持页面的参数名称和Controller方法形参一致就不用加@RequestParam
      * 4,List 不管名字一不一样,必须加@RequestParam
      */
@@ -56,4 +55,18 @@ public class CheckItemController {
         );
         return pageResult;
     }
+
+    /**
+     * Id查询
+     *
+     * @param row
+     * @return
+     */
+    @RequestMapping("findById")
+    public PageResult findById(Integer row) {
+        System.out.println(row);
+        return checkItemService.findById(row);
+    }
+
+
 }

@@ -20,11 +20,19 @@ public interface CheckItemMapper {
     void add(CheckItem checkItem);
 
 
-
-
-    /**分页查询
+    /**
+     * 分页查询
+     *
      * @param queryString
      * @return
      */
     Page<CheckItem> findPage(@Param("queryString") String queryString);
+
+    /**
+     * Id查询
+     *
+     * @param row
+     * @return
+     */
+    PageResult findById(@Param("row") Integer row);
 }

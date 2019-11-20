@@ -29,4 +29,11 @@ public interface CheckItemService {
      */
     PageResult findPage(Integer currentPage, Integer pageSize, String queryString);
 
+    /**
+     * Id查询
+     *
+     * @param row
+     * @return
+     */
+    PageResult findById(Integer row);
 }

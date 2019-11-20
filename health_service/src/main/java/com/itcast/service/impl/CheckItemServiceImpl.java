@@ -55,12 +55,23 @@ public class CheckItemServiceImpl implements CheckItemService {
 //        return new PageResult(page.getTotal(),checkItems);
 
 
-
         //使用分页插件(告诉分页拦截器我现在要分页)
-        PageHelper.startPage(currentPage,pageSize);
+        PageHelper.startPage(currentPage, pageSize);
         Page<CheckItem> page = checkItemDao.findPage(queryString);
 
-        return new PageResult(page.getTotal(),page.getResult());
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    /**
+     * Id查询
+     *
+     * @param row
+     * @return
+     */
+    @Override
+    public PageResult findById(Integer row) {
+
+        return checkItemDao.findById(row);
     }
 
 
