@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--配置接口dao的全限定类名-->
+<mapper namespace="com.itcast.mapper.CheckItemMapper">
+
+    <!--新增-->
+    <insert id="add">
+    INSERT INTO t_checkitem ( CODE, NAME, sex, age, price, type, remark, attention )
+  VALUES
+	(#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention});
+    </insert>
+
+    <!--分页查询-->
+    <select id="findPage" resultType="com.itcast.pojo.CheckItem">
+
+      select *  from t_checkitem
+      <if test="queryString !=null and queryString.trim().length > 0">
+          where code = #{queryString} or name = #{queryString}
+      </if>
+
+    </select>
+</mapper>
