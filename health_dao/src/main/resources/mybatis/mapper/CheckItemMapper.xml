@@ -7,36 +7,45 @@
 
     <!--新增-->
     <insert id="add">
-    INSERT INTO t_checkitem ( CODE, NAME, sex, age, price, type, remark, attention )
+    INSERT INTO t_checkitem ( CODE, NAME, sex, age, price, type, remark, attention,uid )
   VALUES
-	(#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention});
+	(#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention},0);
     </insert>
 
     <!--编辑-->
     <update id="edit">
-   update  t_checkitem  set CODE=#{code},NAME=#{name},sex=#{sex},age=#{age},price=#{price},type=#{type},remark=#{remark},attention=#{attention}
+   update  t_checkitem  set CODE=#{code},NAME=#{name},sex=#{sex},age=#{age},price=#{price},type=#{type},remark=#{remark},attention=#{attention},uid=0
    where id = #{id}
     </update>
     <!--删除-->
-    <delete id="delete">
-        delete  from  t_checkitem  where id= #{id_}
-    </delete>
+    <!--    <delete id="delete">-->
+    <!--        delete  from  t_checkitem  where id= #{id_}-->
+    <!--    </delete>-->
+
+    <!--删除;逻辑删除-->
+    <update id="delete">
+       update  t_checkitem set uid=1 where id= #{id_}
+    </update>
 
     <!--分页查询-->
     <select id="findPage" resultType="com.itcast.pojo.CheckItem">
 
-        select * from t_checkitem
+        select * from t_checkitem where
         <if test="queryString !=null and queryString.trim().length > 0">
-            where code like '%' #{queryString} '%'
-            or name like '%' #{queryString} '%'
+            code like '%' #{queryString} '%'
+            or name like '%' #{queryString} '%' and
         </if>
-
+        uid=0
     </select>
 
     <!--Id查询-->
     <select id="findById" resultType="com.itcast.pojo.CheckItem">
 
-     select * from t_checkitem where id= #{row}
+     select * from t_checkitem where id= #{row} and uid=0
 
+    </select>
+    <!--查询所有-->
+    <select id="findAll" resultType="com.itcast.pojo.CheckItem">
+         select *  from  t_checkitem where uid=0
     </select>
 </mapper>

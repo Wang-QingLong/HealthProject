@@ -7,10 +7,13 @@ import com.itcast.entity.QueryPageBean;
 import com.itcast.entity.Result;
 import com.itcast.pojo.CheckItem;
 import com.itcat.service.CheckItemService;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @version V1.0
@@ -34,7 +37,7 @@ public class CheckItemController {
      * 3,基本数据类型 & 数组 &MultipartFile 只要保持页面的参数名称和Controller方法形参一致就不用加@RequestParam
      * 4,List 不管名字一不一样,必须加@RequestParam
      */
-    @RequestMapping("/add")
+    @RequestMapping("add")
     public Result add(@RequestBody CheckItem checkItem) {
         try {
             checkItemService.add(checkItem);
@@ -90,20 +93,39 @@ public class CheckItemController {
     }
 
 
-
+    /**
+     * 删除
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "delete")
-    public Result delete(String id) {
-
-        Integer id_ = Integer.parseInt(id);
-
+    public Result delete(Integer id) {
         try {
-            checkItemService.delete(id_);
+            checkItemService.delete(id);
         } catch (Exception e) {
             return new Result(false, MessageConstant.DELETE_CHECKGROUP_FAIL);
         }
 
         return new Result(true, MessageConstant.DELETE_CHECKITEM_SUCCESS);
-
     }
+
+
+    /**
+     * 查询所有
+     *
+     * @return
+     */
+    @RequestMapping("findAll")
+    public Result findAll() {
+        //
+        List<CheckItem> checkItems = checkItemService.findAll();
+        if (checkItems != null && checkItems.size() > 0) {
+            return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS, checkItems);
+        } else {
+            return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
+        }
+    }
+
 
 }

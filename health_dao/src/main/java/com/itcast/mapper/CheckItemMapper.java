@@ -6,6 +6,8 @@ import com.itcast.entity.Result;
 import com.itcast.pojo.CheckItem;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @version V1.0
  * @author: WangQingLong
@@ -45,8 +47,17 @@ public interface CheckItemMapper {
     void edit(CheckItem checkItem);
 
 
-    /**删除
+    /**
+     * 删除
+     *
      * @param id_
      */
     void delete(@Param("id_") Integer id_);
+
+    /**
+     * 查询所有
+     *
+     * @return
+     */
+    List<CheckItem> findAll();
 }

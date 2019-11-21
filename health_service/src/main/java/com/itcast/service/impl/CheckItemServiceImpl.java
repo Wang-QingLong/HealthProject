@@ -11,6 +11,8 @@ import com.itcat.service.CheckItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @version V1.0
  * @author: WangQingLong
@@ -93,6 +95,16 @@ public class CheckItemServiceImpl implements CheckItemService {
     @Override
     public void delete(Integer id_) {
         checkItemDao.delete(id_);
+    }
+
+    /**
+     * 查询所有
+     *
+     * @return
+     */
+    @Override
+    public List<CheckItem> findAll() {
+        return checkItemDao.findAll();
     }
 
 

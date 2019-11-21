@@ -5,6 +5,8 @@ import com.itcast.entity.PageResult;
 import com.itcast.entity.Result;
 import com.itcast.pojo.CheckItem;
 
+import java.util.List;
+
 /**
  * @version V1.0
  * @author: WangQingLong
@@ -51,4 +53,11 @@ public interface CheckItemService {
      * @param id_
      */
     void delete(Integer id_);
+
+    /**
+     * 查询所以
+     *
+     * @return
+     */
+    List<CheckItem> findAll();
 }

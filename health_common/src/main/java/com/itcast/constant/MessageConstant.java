@@ -19,6 +19,7 @@ public class MessageConstant {
     public static final String ADD_CHECKGROUP_FAIL = "新增检查组失败";
     public static final String ADD_CHECKGROUP_SUCCESS = "新增检查组成功";
     public static final String DELETE_CHECKGROUP_FAIL = "删除检查组失败";
+    public static final String DELETE_CHECKGROUP_CHECKITEMSID_FAIL = "存在引用关系,删除失败";
     public static final String DELETE_CHECKGROUP_SUCCESS = "删除检查组成功";
     public static final String QUERY_CHECKGROUP_SUCCESS = "查询检查组成功";
     public static final String QUERY_CHECKGROUP_FAIL = "查询检查组失败";
