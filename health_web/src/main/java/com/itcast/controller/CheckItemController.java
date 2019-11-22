@@ -52,12 +52,11 @@ public class CheckItemController {
     //分页查询
     @RequestMapping("findPage")
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean) {
-        PageResult pageResult = checkItemService.findPage(
+        return checkItemService.findPage(
                 queryPageBean.getCurrentPage(),
                 queryPageBean.getPageSize(),
                 queryPageBean.getQueryString()
         );
-        return pageResult;
     }
 
     /**

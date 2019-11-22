@@ -103,4 +103,8 @@
   WHERE
 	 checkgroup_id =#{id}
     </select>
+    <!--查询所有的检查组-->
+    <select id="findAll" resultType="com.itcast.pojo.CheckGroup">
+        select * from  t_checkgroup where gid=0;
+    </select>
 </mapper>

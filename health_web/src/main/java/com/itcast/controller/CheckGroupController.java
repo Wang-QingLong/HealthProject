@@ -1,6 +1,8 @@
 package com.itcast.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.itcast.constant.DeleteException;
 import com.itcast.constant.MessageConstant;
 import com.itcast.entity.PageResult;
 import com.itcast.entity.QueryPageBean;
@@ -19,7 +21,7 @@ import java.util.Map;
  * @version V1.0
  * @author: WangQingLong
  * @date: 2019/11/20 20:21
- * @description:
+ * @description: 检查组管理
  */
 @RestController
 @RequestMapping("/checkgroup")
@@ -27,6 +29,21 @@ public class CheckGroupController {
 
     @Reference
     private CheckGroupService checkGroupService;
+
+
+    @RequestMapping("findAll")
+    public Result findAll() {
+        List<CheckGroup> groupList = checkGroupService.findAll();
+        //CollUtil工具类,判断集合是否为空
+        if (CollUtil.isNotEmpty(groupList)) {
+            //不为空
+            return new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS, groupList);
+        } else {
+            //为空
+            return new Result(false, MessageConstant.QUERY_CHECKGROUP_FAIL);
+        }
+
+    }
 
 
     /**
@@ -38,13 +55,11 @@ public class CheckGroupController {
     @RequestMapping("findPage")
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean) {
 
-        PageResult pageResult = checkGroupService.findPage(
+        return checkGroupService.findPage(
                 queryPageBean.getCurrentPage(),
                 queryPageBean.getPageSize(),
                 queryPageBean.getQueryString()
         );
-        return pageResult;
-
     }
 
     /**
@@ -147,7 +162,7 @@ public class CheckGroupController {
         Integer count = checkGroupService.findCountById(id);
         if (count >= 1 && count != null) {
             //如果存在引用关系,就提示要存在引用关系,不可直接删除
-            return new Result(false, MessageConstant.DELETE_CHECKGROUP_CHECKITEMSID_FAIL);
+            throw new DeleteException("检查组与检查项存在关联,不可直接删除");
         } else {
             //不存在就直接删除(逻辑删除)
             try {

@@ -137,9 +137,21 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         return checkGroupMapper.findCountById(id);
     }
 
+    /**删除
+     * @param id
+     */
     @Override
     public void delete(Integer id) {
         checkGroupMapper.delete(id);
+    }
+
+    /**查询所有检查组信息
+     * @return
+     */
+    @Override
+    public List<CheckGroup> findAll() {
+
+      return   checkGroupMapper.findAll();
     }
 
     /**

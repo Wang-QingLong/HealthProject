@@ -12,7 +12,7 @@ import java.util.Map;
  * @version V1.0
  * @author: WangQingLong
  * @date: 2019/11/20 20:34
- * @description:
+ * @description: 检查组持久层接口
  */
 public interface CheckGroupMapper {
 
@@ -76,8 +76,18 @@ public interface CheckGroupMapper {
      */
     Integer findCountById(@Param("id") Integer id);
 
-    /**逻辑删除
+    /**
+     * 逻辑删除
+     *
      * @param id
      */
     void delete(@Param("id") Integer id);
+
+    /**
+     * 查询所有的检查组
+     *
+     * @return
+     */
+    List<CheckGroup> findAll();
+
 }

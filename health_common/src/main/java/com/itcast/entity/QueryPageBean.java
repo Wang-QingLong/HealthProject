@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @version V1.0
  * @author: WangQingLong
  * @date: 2019/11/18 17:54
- * @description:
+ * @description: 分页查询
  */
 public class QueryPageBean implements Serializable {
     private Integer currentPage;//页码

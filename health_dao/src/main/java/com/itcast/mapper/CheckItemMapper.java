@@ -12,7 +12,7 @@ import java.util.List;
  * @version V1.0
  * @author: WangQingLong
  * @date: 2019/11/18 18:51
- * @description: 持久层dao接口
+ * @description: 检查项持久层dao接口
  */
 public interface CheckItemMapper {
     /**

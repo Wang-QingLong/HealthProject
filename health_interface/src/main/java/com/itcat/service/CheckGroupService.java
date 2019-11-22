@@ -66,14 +66,25 @@ public interface CheckGroupService {
      */
     void Update(CheckGroup checkGroup, Integer[] checkitemIds);
 
-    /**查询中间表数据
+    /**
+     * 查询中间表数据
+     *
      * @param id
      * @return
      */
     Integer findCountById(Integer id);
 
-    /**逻辑删除
+    /**
+     * 逻辑删除
+     *
      * @param id
      */
     void delete(Integer id);
+
+    /**
+     * 查询所有的检查组数据
+     *
+     * @return
+     */
+    List<CheckGroup> findAll();
 }

@@ -38,6 +38,7 @@
         <jedis.version>2.9.0</jedis.version>
         <quartz.version>2.2.1</quartz.version>
         <hutool.version>4.5.5</hutool.version>
+        <qiuqu.version>7.2.27</qiuqu.version>
     </properties>
     <!-- 依赖管理标签  必须加 -->
     <dependencyManagement>
@@ -172,12 +173,6 @@
                 <artifactId>quartz-jobs</artifactId>
                 <version>${quartz.version}</version>
             </dependency>
-            <!--图片上传:七牛-->
-            <dependency>
-                <groupId>com.qiniu</groupId>
-                <artifactId>qiniu-java-sdk</artifactId>
-                <version>7.2.0</version>
-            </dependency>
             <!--POI报表-->
             <dependency>
                 <groupId>org.apache.poi</groupId>
@@ -211,6 +206,12 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
+            </dependency>
+            <!-- 七牛云-->
+            <dependency>
+                <groupId>com.qiniu</groupId>
+                <artifactId>qiniu-java-sdk</artifactId>
+                <version>${qiuqu.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
