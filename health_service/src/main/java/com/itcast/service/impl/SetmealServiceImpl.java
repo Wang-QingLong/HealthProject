@@ -3,6 +3,7 @@ package com.itcast.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.itcast.constant.RedisConstant;
 import com.itcast.entity.PageResult;
 import com.itcast.mapper.CheckGroupMapper;
 import com.itcast.mapper.SetmealMapper;
@@ -11,6 +12,7 @@ import com.itcast.pojo.Setmeal;
 import com.itcat.service.SetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import redis.clients.jedis.JedisPool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,13 +30,13 @@ import java.util.Map;
 public class SetmealServiceImpl implements SetmealService {
 
     @Autowired
-    private SetmealMapper setmealMapper;
+     private SetmealMapper setmealMapper;
 
     @Autowired
-  private CheckGroupMapper checkGroupMapper;
+     private CheckGroupMapper checkGroupMapper;
 
-//    @Autowired
-//    private JedisPool jedisPool;
+    @Autowired
+     private JedisPool jedisPool;
 
 
     /**
@@ -67,8 +69,8 @@ public class SetmealServiceImpl implements SetmealService {
         //设置关联关系
         setmealIdAndCheckGroupIds(setmeal.getId(), checkgroupIds);
 
-//        //将图片名称保存到Redis
-//        savePic2Redis(setmeal.getImg());
+      //将图片名称保存到Redis
+      savePic2Redis(setmeal.getImg());
     }
 
     /**查询回显数据查询:套餐表单数据,所有检查组数据,被勾选的检查组数据
@@ -133,9 +135,9 @@ public class SetmealServiceImpl implements SetmealService {
      *
      * @param pic
      */
-//    private void savePic2Redis(String pic) {
-//        jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_DB_RESOURCES, pic);
-//    }
+    private void savePic2Redis(String pic) {
+        jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_DB_RESOURCES, pic);
+    }
 
 
     /**
