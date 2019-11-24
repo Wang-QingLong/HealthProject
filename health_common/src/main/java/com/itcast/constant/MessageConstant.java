@@ -50,6 +50,8 @@ public class MessageConstant {
     public static final String LOGIN_SUCCESS = "登录成功";
     public static final String VALIDATECODE_ERROR = "验证码输入错误";
     public static final String QUERY_ORDER_SUCCESS = "查询预约信息成功";
+    public static final String EDIT_ORDER_SUCCESS = "编辑预约人数成功";
+    public static final String EDIT_ORDER_FAIL = "编辑预约人数失败";
     public static final String QUERY_ORDER_FAIL = "查询预约信息失败";
     public static final String QUERY_SETMEALLIST_SUCCESS = "查询套餐列表数据成功";
     public static final String QUERY_SETMEALLIST_FAIL = "查询套餐列表数据失败";

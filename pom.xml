@@ -40,6 +40,7 @@
         <quartz.version>2.2.1</quartz.version>
         <hutool.version>4.5.5</hutool.version>
         <qiuqu.version>7.2.27</qiuqu.version>
+        <gunva.version>28.1-jre</gunva.version>
     </properties>
     <!-- 依赖管理标签  必须加 -->
     <dependencyManagement>
@@ -174,7 +175,7 @@
                 <artifactId>quartz-jobs</artifactId>
                 <version>${quartz.version}</version>
             </dependency>
-            <!--POI报表-->
+            <!--POI报表:对Microsoft Office格式档案读和写的功能,最多用于excel-->
             <dependency>
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi</artifactId>
@@ -213,6 +214,12 @@
                 <groupId>com.qiniu</groupId>
                 <artifactId>qiniu-java-sdk</artifactId>
                 <version>${qiuqu.version}</version>
+            </dependency>
+            <!--谷歌的多线程工具类-->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${gunva.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

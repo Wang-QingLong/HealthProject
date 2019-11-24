@@ -55,7 +55,7 @@ public class SetmealController {
         );
     }
     /**
-     * 文件上传
+     * 文件上传:使用七牛云上传
      *
      * @param imgFile
      * @return
