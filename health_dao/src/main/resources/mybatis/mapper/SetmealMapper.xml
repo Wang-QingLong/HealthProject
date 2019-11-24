@@ -9,9 +9,9 @@
         <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        INSERT INTO t_setmeal (  name, code, helpCode, sex, age, price, remark,  attention, img ,sid)
- VALUES
-	 ( #{name},  #{code},  #{helpCode},  #{sex},  #{age}, #{price}, #{remark},  #{attention},  #{img},0);
+        INSERT INTO t_setmeal ( name, code, helpCode, sex, age, price, remark, attention, img ,sid)
+        VALUES
+        ( #{name}, #{code}, #{helpCode}, #{sex}, #{age}, #{price}, #{remark}, #{attention}, #{img},0);
     </insert>
 
     <!--建立检查组表与套餐表之间关联关系，往中间表t_setmeal_checkgroup添加数据-->
@@ -96,7 +96,7 @@
 	setmeal_id = #{id};
     </select>
 
-<!--查询中间表引用关系-->
+    <!--查询中间表引用关系-->
     <select id="findCountById" resultType="java.lang.Integer">
         SELECT
 	 count(*)
@@ -104,5 +104,9 @@
  	t_setmeal_checkgroup
     WHERE
 	setmeal_id = #{id};
+    </select>
+    <!-- 查询所有-->
+    <select id="findAll" resultType="com.itcast.pojo.Setmeal">
+        select * from t_setmeal where  sid=0
     </select>
 </mapper>

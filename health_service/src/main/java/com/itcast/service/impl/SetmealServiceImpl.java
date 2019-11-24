@@ -1,14 +1,18 @@
 package com.itcast.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.itcast.constant.RedisConstant;
 import com.itcast.entity.PageResult;
 import com.itcast.mapper.CheckGroupMapper;
+import com.itcast.mapper.CheckItemMapper;
 import com.itcast.mapper.SetmealMapper;
 import com.itcast.pojo.CheckGroup;
+import com.itcast.pojo.CheckItem;
 import com.itcast.pojo.Setmeal;
+import com.itcat.service.CheckItemService;
 import com.itcat.service.SetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,13 +34,16 @@ import java.util.Map;
 public class SetmealServiceImpl implements SetmealService {
 
     @Autowired
-     private SetmealMapper setmealMapper;
+    private SetmealMapper setmealMapper;
 
     @Autowired
-     private CheckGroupMapper checkGroupMapper;
+    private CheckGroupMapper checkGroupMapper;
 
     @Autowired
-     private JedisPool jedisPool;
+    private CheckItemMapper checkItemMapper;
+
+    @Autowired
+    private JedisPool jedisPool;
 
 
     /**
@@ -69,11 +76,13 @@ public class SetmealServiceImpl implements SetmealService {
         //设置关联关系
         setmealIdAndCheckGroupIds(setmeal.getId(), checkgroupIds);
 
-      //将图片名称保存到Redis
-      savePic2Redis(setmeal.getImg());
+        //将图片名称保存到Redis
+        savePic2Redis(setmeal.getImg());
     }
 
-    /**查询回显数据查询:套餐表单数据,所有检查组数据,被勾选的检查组数据
+    /**
+     * 查询回显数据查询:套餐表单数据,所有检查组数据,被勾选的检查组数据
+     *
      * @param id
      * @return
      */
@@ -82,22 +91,24 @@ public class SetmealServiceImpl implements SetmealService {
         //创建一个map集合,封装这些数据
         Map<String, Object> map = new HashMap<>();
         //获取setmeal数据
-         Setmeal setmeal=setmealMapper.findSetmealById(id);
-         //获取所有检查组数据
+        Setmeal setmeal = setmealMapper.findSetmealById(id);
+        //获取所有检查组数据
         List<CheckGroup> checkGroups = checkGroupMapper.findAll();
         //获取中间表里面的checkgroupIds
-     List<Integer> groupIds=  setmealMapper.findCheckGroupIdsById(id);
+        List<Integer> groupIds = setmealMapper.findCheckGroupIdsById(id);
 
-     //封装需要查询的数据
-        map.put("setmeal",setmeal);
-        map.put("checkGroups",checkGroups);
-        map.put("groupIds",groupIds);
+        //封装需要查询的数据
+        map.put("setmeal", setmeal);
+        map.put("checkGroups", checkGroups);
+        map.put("groupIds", groupIds);
 
-               return map;
+        return map;
 
     }
 
-    /**更新数据
+    /**
+     * 更新数据
+     *
      * @param setmeal
      * @param checkgroupIds
      */
@@ -112,7 +123,9 @@ public class SetmealServiceImpl implements SetmealService {
         setmealMapper.Update(setmeal);
     }
 
-    /**查询中间表引用关系
+    /**
+     * 查询中间表引用关系
+     *
      * @param id
      * @return
      */
@@ -122,7 +135,9 @@ public class SetmealServiceImpl implements SetmealService {
 
     }
 
-    /**逻辑删除套餐数据
+    /**
+     * 逻辑删除套餐数据
+     *
      * @param id
      */
     @Override
@@ -162,5 +177,71 @@ public class SetmealServiceImpl implements SetmealService {
             setmealMapper.setCheckGroupAndCheckItem(maps);
 
         }
+    }
+
+    /**
+     * 查询所有的套餐数据
+     *
+     * @return
+     */
+    @Override
+    public List<Setmeal> findAll() {
+        return setmealMapper.findAll();
+    }
+
+    /**
+     * 根据套餐Id查询套餐内所有数据
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Setmeal findById(Integer id) {
+        //先使用Id查询套餐数据,判断是否有数据
+        Setmeal setmeal = setmealMapper.findSetmealById(id);
+        if (setmeal != null) {
+            //使用套餐的Id查询对应的检查组的Id
+            List<Integer> checkGroupIds = setmealMapper.findCheckGroupIdsById(setmeal.getId());
+            //判断集合是否为空
+            if (CollUtil.isNotEmpty(checkGroupIds)) {
+                //创建一个list集合用于封装检查组对象
+                ArrayList<CheckGroup> checkGroupArrayList = new ArrayList<>();
+                //不为空,则遍历
+                for (Integer checkGroupId : checkGroupIds) {
+                    //获取检查组对象
+                    CheckGroup checkGroup = checkGroupMapper.findById(checkGroupId);
+                    //判断是否为空
+                    if (checkGroup != null) {
+                        //不为空,添加到集合
+                        checkGroupArrayList.add(checkGroup);
+                        //根据Id查询检查项Ids
+                        List<Integer> checkitemIds = checkGroupMapper.findCheckItemIdsByCheckGroupId(checkGroup.getId());
+                        //判断集合是否为空
+                        if (CollUtil.isNotEmpty(checkitemIds)) {
+                            //创建一个集合用于封装查询的检查项数据
+                            List<CheckItem> checkItemslist = new ArrayList<>();
+                            //不为空
+                            for (Integer checkitemId : checkitemIds) {
+                                CheckItem checkitem = checkItemMapper.findById(checkitemId);
+                                //判断是否为空
+                                if (checkitem != null) {
+                                    //不为空添加到集合
+                                    checkItemslist.add(checkitem);
+                                }
+                            }
+                            //检查组对象封装检查项数据checkItemslist
+                            checkGroup.setCheckItems(checkItemslist);
+                        }
+
+                    }
+
+                }
+                //套餐对象封装检查组数据checkGroupArrayList
+                setmeal.setCheckGroups(checkGroupArrayList);
+            }
+            return setmeal;
+        }
+
+        return null;
     }
 }
