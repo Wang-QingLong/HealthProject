@@ -17,6 +17,13 @@
  WHERE
 	orderDate = #{orderDate}
     </update>
+    <!--更新预约人数量:当数量为1时，为避免一个产品出现多个订单，使用mysql的innodb 行锁 -->
+    <update id="editReservationsByOrderDate">
+        UPDATE t_ordersetting
+  SET reservations = #{reservations},version=version+1
+  WHERE
+	orderDate = #{orderDate} and version=#{version}
+    </update>
 
     <!--查询所有-->
     <select id="findAll" resultType="com.itcast.pojo.OrderSetting">
@@ -26,6 +33,14 @@
     <select id="findByData" resultType="java.lang.Integer">
         SELECT count(t.number) from
      t_ordersetting t
+     WHERE
+	orderDate = #{orderDate}
+    </select>
+
+    <!--检查用户所选择的预约日期是否已经提前进行了预约设置，如果没有设置则无法进行预约-->
+    <select id="findByOrderDate" resultType="com.itcast.pojo.OrderSetting">
+         SELECT * from
+     t_ordersetting
      WHERE
 	orderDate = #{orderDate}
     </select>

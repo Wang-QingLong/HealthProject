@@ -16,6 +16,19 @@ public class CheckItem implements Serializable {
     private String remark;//项目说明
     private String attention;//注意事项
 
+    private Integer checkgroupId; //检查组Id 用于优化组合查寻封装
+
+
+    public Integer getCheckgroupId() {
+        return checkgroupId;
+    }
+
+    public void setCheckgroupId(Integer checkgroupId) {
+        this.checkgroupId = checkgroupId;
+    }
+
+
+
     public Integer getId() {
         return id;
     }

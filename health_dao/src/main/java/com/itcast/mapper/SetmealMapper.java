@@ -1,6 +1,8 @@
 package com.itcast.mapper;
 
 import com.github.pagehelper.Page;
+import com.itcast.pojo.CheckGroup;
+import com.itcast.pojo.CheckItem;
 import com.itcast.pojo.Setmeal;
 import org.apache.ibatis.annotations.Param;
 
@@ -91,4 +93,19 @@ public interface SetmealMapper {
     List<Setmeal> findAll();
 
 
+    /**
+     * 根据套餐Id查询所有的检查组
+     *
+     * @param id
+     * @return
+     */
+    List<CheckGroup> findCheckGroupsBySetmealId(@Param("id") Integer id);
+
+    /**
+     * 根据检查组的Ids查询检查项的所有数据
+     *
+     * @param ids
+     * @return
+     */
+    List<CheckItem> findCheckItemsByCheckGroupIds(@Param("ids") List<Integer> ids);
 }

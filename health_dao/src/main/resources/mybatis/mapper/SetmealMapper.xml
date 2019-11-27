@@ -109,4 +109,19 @@
     <select id="findAll" resultType="com.itcast.pojo.Setmeal">
         select * from t_setmeal where  sid=0
     </select>
+    <!--根据套餐Id查询所有的检查组-->
+    <select id="findCheckGroupsBySetmealId" resultType="com.itcast.pojo.CheckGroup">
+         select id,name,remark from t_checkgroup where id in (select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{id})
+    </select>
+
+    <!--根据所有的检查组Ids查询检查项的数据-->
+    <select id="findCheckItemsByCheckGroupIds" resultType="com.itcast.pojo.CheckItem">
+
+        select ck.*,cck.checkgroup_id checkgroupId from t_checkgroup_checkitem cck left join  t_checkitem ck on
+        cck.checkitem_id = ck.id
+        where cck.checkgroup_id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
 </mapper>

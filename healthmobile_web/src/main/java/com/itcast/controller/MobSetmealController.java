@@ -5,11 +5,15 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.itcast.constant.MessageConstant;
 import com.itcast.entity.Result;
 import com.itcast.pojo.Setmeal;
+import com.itcast.utils.JedisUtil;
 import com.itcat.service.SetmealService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @version V1.0
@@ -19,10 +23,25 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("setmeal")
-public class SetmealController {
+public class MobSetmealController {
 
     @Reference
     private SetmealService setmealService;
+
+
+
+
+
+@RequestMapping("getToken")
+    public Result getToken(){
+    String token = UUID.randomUUID().toString();
+    JedisUtil.setex("token",60*60,token);
+    return Result.success("",token);
+}
+
+
+
+
 
     /**
      * 查询所有的套餐信息

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @version V1.0
@@ -190,13 +191,14 @@ public class SetmealServiceImpl implements SetmealService {
     }
 
     /**
+     * 老版方法
      * 根据套餐Id查询套餐内所有数据
      *
      * @param id
      * @return
      */
-    @Override
-    public Setmeal findById(Integer id) {
+
+    public Setmeal findById_(Integer id) {
         //先使用Id查询套餐数据,判断是否有数据
         Setmeal setmeal = setmealMapper.findSetmealById(id);
         if (setmeal != null) {
@@ -244,4 +246,69 @@ public class SetmealServiceImpl implements SetmealService {
 
         return null;
     }
+
+
+    /**
+     * 优化
+     * 根据套餐Id查询套餐内所有的数据
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Setmeal findById(Integer id) {
+        //为了减少与数据库交互的次数,提高性能,一次性从数据库将我们需要的数据全部拿回来
+        //先判断从数据库返回的数据是否为空
+        Setmeal setmeal = setmealMapper.findSetmealById(id);
+        if (setmeal != null) {
+            //不为空
+
+            // 根据套餐id查询套餐下面的检查组
+            List<CheckGroup> checkGroups = setmealMapper.findCheckGroupsBySetmealId(id);
+
+            //创建一个集合用于封装所有的检查组Id
+            List<Integer> ids = new ArrayList<>();
+
+            // 循环所有的检查组查询对应的检查项集合
+            for (CheckGroup checkGroup : checkGroups) {
+                ids.add(checkGroup.getId());
+            }
+
+            //所有的检查项
+            List<CheckItem> checkItems = setmealMapper.findCheckItemsByCheckGroupIds(ids);
+
+            //分组:
+            // 创建一个map集合.用于封装一个检查组Id对应多个检查项
+            Map<Integer, List<CheckItem>> map = new HashMap<>();
+
+//            // 循环所有的检查项
+//            for (CheckItem checkItem : checkItems) {
+//                //从查询的检查项里面取检查组checkGroupId
+//                Integer checkGroupId = checkItem.getCheckgroupId();
+//                //假设map集合当中有数据
+//                //通过检查组Id,也就是map集合里面的key,获取检查项数据
+//                List<CheckItem> items = map.get(checkGroupId);
+//                //如果检查项集合为空(第一次肯定为空)
+//                if (items == null) {
+//                    //新建一个集合
+//                    items = new ArrayList<>();
+//                }
+//                //往里面装检查项,一个一个装
+//                items.add(checkItem);
+//                //装入map集合
+//                map.put(checkGroupId, items);
+//            }
+
+            map = checkItems.stream().collect(Collectors.groupingBy(CheckItem::getCheckgroupId));
+
+            for (CheckGroup checkGroup : checkGroups) {
+                checkGroup.setCheckItems(map.get(checkGroup.getId()));
+            }
+
+            setmeal.setCheckGroups(checkGroups);
+
+        }
+        return setmeal;
+    }
+
 }
